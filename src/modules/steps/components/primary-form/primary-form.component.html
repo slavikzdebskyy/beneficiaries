@@ -1,1 +1,90 @@
-<p>primary-form works!</p>
+<div class="pf">
+  <h3 class="pf-title">
+    Beneficiaries
+  </h3>
+
+  <h3 class="pf-form-name">
+    Primary Beneficiarie
+  </h3>
+
+  <form class="pf-form" [formGroup]="form">
+    <div class="row">
+      <mat-form-field class="pf-form-field fn"
+                      appearance="outline">
+        <mat-label>
+          Full Name
+        </mat-label>
+        <input formControlName="fullName"
+               matInput
+               autocomplete="off"
+               placeholder="John Doe" >
+      </mat-form-field>
+
+      <mat-form-field class="pf-form-field date"
+                      appearance="outline">
+        <mat-label>
+          Date of Birth
+        </mat-label>
+        <input formControlName="dateOfBirth"
+               matInput
+               [min]="minDate"
+               [max]="maxDate"
+               autocomplete="off"
+               [matDatepicker]="picker">
+        <mat-datepicker-toggle
+          matPrefix
+          [for]="picker">
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field  class="pf-form-field snn"
+                       appearance="outline">
+        <mat-select formControlName="snn">
+          <mat-option *ngFor="let s of snn" [value]="s">
+            {{ s }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="pf-form-field opt"
+                      appearance="outline">
+        <mat-label>
+          Optional
+        </mat-label>
+        <input formControlName="optional"
+               matInput
+               autocomplete="off"
+               placeholder="Optional" >
+      </mat-form-field>
+
+      <mat-form-field  class="pf-form-field rel"
+                       appearance="outline">
+        <mat-select formControlName="relationship">
+          <mat-option *ngFor="let rel of relationships" [value]="rel.value">
+            {{ rel.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="pf-form-field perc"
+                      appearance="outline">
+        <input matInput
+               autocomplete="off">
+        <span class="pf-form-field-preff"
+              matSuffix>
+          %
+        </span>
+      </mat-form-field>
+
+      <div class="pf-form-btn-container">
+        <button class="pf-form-btn-container-cancel" mat-icon-button>
+          <mat-icon>clear</mat-icon>
+        </button>
+        <button class="pf-form-btn-container-done" mat-icon-button>
+          <mat-icon>done</mat-icon>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
