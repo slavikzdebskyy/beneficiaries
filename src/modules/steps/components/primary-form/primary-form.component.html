@@ -4,87 +4,118 @@
   </h3>
 
   <h3 class="pf-form-name">
-    Primary Beneficiarie
+    Primary Beneficiaries
   </h3>
 
   <form class="pf-form" [formGroup]="form">
-    <div class="row">
-      <mat-form-field class="pf-form-field fn"
-                      appearance="outline">
-        <mat-label>
-          Full Name
-        </mat-label>
-        <input formControlName="fullName"
-               matInput
-               autocomplete="off"
-               placeholder="John Doe" >
-      </mat-form-field>
+    <div [formArrayName]="FORM_ARRAY_KEY">
+      <div *ngFor="let group of form.get(FORM_ARRAY_KEY)['controls']; let i=index"
+           class="row"
+           [formArrayName]="i">
+        <mat-form-field class="pf-form-field fn"
+                        appearance="outline">
+          <mat-label>
+            Full Name
+          </mat-label>
+          <input formControlName="fullName"
+                 matInput
+                 autocomplete="off"
+                 placeholder="John Doe" >
+        </mat-form-field>
 
-      <mat-form-field class="pf-form-field date"
-                      appearance="outline">
-        <mat-label>
-          Date of Birth
-        </mat-label>
-        <input formControlName="dateOfBirth"
-               matInput
-               [min]="minDate"
-               [max]="maxDate"
-               autocomplete="off"
-               [matDatepicker]="picker">
-        <mat-datepicker-toggle
-          matPrefix
-          [for]="picker">
-        </mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+        <mat-form-field class="pf-form-field date"
+                        appearance="outline">
+          <mat-label>
+            Date of Birth
+          </mat-label>
+          <input formControlName="dateOfBirth"
+                 matInput
+                 [min]="minDate"
+                 [max]="maxDate"
+                 autocomplete="off"
+                 [matDatepicker]="picker">
+          <mat-datepicker-toggle
+            matPrefix
+            [for]="picker">
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
 
-      <mat-form-field  class="pf-form-field snn"
-                       appearance="outline">
-        <mat-select formControlName="snn">
-          <mat-option *ngFor="let s of snn" [value]="s">
-            {{ s }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field  class="pf-form-field snn"
+                         appearance="outline">
+          <mat-select formControlName="snn">
+            <mat-option *ngFor="let s of snn" [value]="s">
+              {{ s }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field class="pf-form-field opt"
-                      appearance="outline">
-        <mat-label>
-          Optional
-        </mat-label>
-        <input formControlName="optional"
-               matInput
-               autocomplete="off"
-               placeholder="Optional" >
-      </mat-form-field>
+        <mat-form-field class="pf-form-field opt"
+                        appearance="outline">
+          <mat-label>
+            Optional
+          </mat-label>
+          <input formControlName="optional"
+                 matInput
+                 autocomplete="off"
+                 placeholder="Optional" >
+        </mat-form-field>
 
-      <mat-form-field  class="pf-form-field rel"
-                       appearance="outline">
-        <mat-select formControlName="relationship">
-          <mat-option *ngFor="let rel of relationships" [value]="rel.value">
-            {{ rel.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field  class="pf-form-field rel"
+                         appearance="outline">
+          <mat-select formControlName="relationship">
+            <mat-option *ngFor="let rel of relationships" [value]="rel.value">
+              {{ rel.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field class="pf-form-field perc"
-                      appearance="outline">
-        <input matInput
-               autocomplete="off">
-        <span class="pf-form-field-preff"
-              matSuffix>
+        <mat-form-field class="pf-form-field perc"
+                        appearance="outline">
+          <input formControlName="percentage"
+                 matInput
+                 autocomplete="off"
+                 type="number">
+          <span class="pf-form-field-preff"
+                matSuffix>
           %
         </span>
-      </mat-form-field>
+        </mat-form-field>
 
-      <div class="pf-form-btn-container">
-        <button class="pf-form-btn-container-cancel" mat-icon-button>
-          <mat-icon>clear</mat-icon>
-        </button>
-        <button class="pf-form-btn-container-done" mat-icon-button>
-          <mat-icon>done</mat-icon>
-        </button>
+        <div class="pf-form-btn-container">
+          <button *ngIf="isShowCancelBtn(i)"
+                  class="pf-form-btn-container-cancel"
+                  mat-icon-button
+                  (click)="removeOrClearFormGroup(i)">
+            <mat-icon>clear</mat-icon>
+          </button>
+          <button *ngIf="isShowDoneBtb(i)"
+                  class="pf-form-btn-container-done"
+                  mat-icon-button
+                  (click)="done()">
+            <mat-icon>done</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row end">
+      <div class="pf-form-chip"
+           [class.filled]="isFormValidAndFilled">
+        <mat-icon *ngIf="isFormValidAndFilled"
+                  class="pf-form-chip-icon">
+          done
+        </mat-icon>
+        <span>
+          Primary Total {{ totalPercentage }} %
+        </span>
       </div>
     </div>
   </form>
+
+  <button mat-raised-button
+          color="primary"
+          [disabled]="!isFormValidAndFilled">
+    Next
+  </button>
+
 </div>

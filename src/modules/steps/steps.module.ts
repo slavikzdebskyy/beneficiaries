@@ -18,6 +18,7 @@ const MATERIAL_MODULES = [
   MatNativeDateModule,
   MatSelectModule,
   MatIconModule,
+  MatButtonModule,
 ];
 
 @NgModule({
@@ -27,7 +28,6 @@ const MATERIAL_MODULES = [
     CommonModule,
     StepsRoutingModule,
     ReactiveFormsModule,
-    MatButtonModule
   ]
 })
 export class StepsModule {
