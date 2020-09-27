@@ -60,10 +60,8 @@ export class PrimaryFormComponent {
     this.formArray.controls.splice(index, 1);
     this.form.updateValueAndValidity();
     this.calculateTotalPercentage();
+    this.setValidatorsForLast();
 
-    if (this.formArray.length - 1 !== index) {
-      this.setValidatorsForLast();
-    }
   }
 
   public done(): void {
@@ -78,7 +76,7 @@ export class PrimaryFormComponent {
   }
 
   private setValidatorsForLast(): void {
-    this.lastFormGroup.controls.percentage.setValidators(this.getPercentageValidators(100 - this.totalPercentage));
+    this.lastFormGroup.controls.percentage.setValidators(this.getPercentageValidators());
   }
 
   private initForm(): void {
@@ -88,9 +86,7 @@ export class PrimaryFormComponent {
   }
 
   private addNewFormGroup(): void {
-    const formGroup = this.createFormGroup();
-    formGroup.markAsUntouched();
-    this.formArray.push(formGroup);
+    this.formArray.push(this.createFormGroup());
   }
 
   private createFormGroup(): FormGroup {
@@ -104,11 +100,11 @@ export class PrimaryFormComponent {
     });
   }
 
-  private getPercentageValidators(maxValue = 100): ValidatorFn[] {
+  private getPercentageValidators(): ValidatorFn[] {
     return [
       Validators.required,
       Validators.min(0),
-      Validators.max(maxValue)
+      Validators.max(100 - this.totalPercentage)
     ];
   }
 
